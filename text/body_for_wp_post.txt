@@ -1,0 +1,15 @@
+<span style="font-weight: bold;">{YEAR}/{S_MONTH}/{S_DATE}-{YEAR}/{E_MONTH}/{E_DATE}にTwitterで投稿された、
+データサイエンスや機械学習に関する人気Tweetを自動投稿します。</span>
+
+<h2>【日本語】 Tweet</h2>
+{TWEETS_JA}
+
+<h2>【英語】 Tweet</h2>
+{TWEETS_EN}
+
+<h3>投稿条件</h3>
+<ul>
+ 	<li>検索ワード（日本語の場合）：「データサイエンス」 「機械学習」</li>
+ 	<li>検索ワード（英語の場合）：「data science」 「machine learning」</li>
+ 	<li>対象としているTweet：上記検索ワードで検索された中で、（Twitter社が独自で判断している）人気のあるTweet、且つ100いいね以上ついているTweet</li>
+</ul>
