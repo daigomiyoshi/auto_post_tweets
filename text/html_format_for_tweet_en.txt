@@ -1,0 +1,10 @@
+<figure class="wp-block-embed-twitter wp-block-embed is-type-rich is-provider-twitter">
+    <div class="wp-block-embed__wrapper">
+        https://twitter.com/{SCREEN_NAME}/status/{ID}
+    </div>
+</figure>
+
+
+<blockquote>日本語翻訳
+「{TRANSLATED_TEXT}」
+</blockquote>

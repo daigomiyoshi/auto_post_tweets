@@ -1,9 +1,9 @@
 params_to_be_set = {
     'YEAR': '2020',
     'S_MONTH': '06',
-    'S_DATE': '01',
+    'S_DATE': '08',
     'E_MONTH': '06',
-    'E_DATE': '09',
+    'E_DATE': '10',
 }
 
 params = {
@@ -27,10 +27,11 @@ params = {
     'COUNT': 100,
     # the number of request (max 180/15minutes)
     'RANGE': 10,
-    'RESULT_TYPE': 'popular',  # popular or mixed or recent
-    'WORDS':  ['\"データサイエンス\"', '\"機械学習\"', '\"data science\"', '\"machine learning\"'],
     'SINCE': '{}-{}-{}'.format(params_to_be_set['YEAR'], params_to_be_set['S_MONTH'], params_to_be_set['S_DATE']),
     'UNTIL': '{}-{}-{}'.format(params_to_be_set['YEAR'], params_to_be_set['E_MONTH'], params_to_be_set['E_DATE']),
+    'RESULT_TYPE': 'mixed',  # popular or mixed or recent
+    'WORDS':  ['\"データサイエンス\"', '\"機械学習\"', '\"data science\"', '\"machine learning\"'],
+    'THRESHOLD': 200,
 
     # parameters for Wordpress
     'WP_URL': 'https://hophead-ds.com',
@@ -38,7 +39,7 @@ params = {
     'WP_PASSWORD': 'oAVL oteM IlaB cTdi gmF6 5MMP',
     'STATUS': 'draft',
     'CATEGORY': [5],
-    'SLUG': 'twitter/auto_post',
+    'SLUG': '{}-{}-{}-twitter-auto-post'.format(params_to_be_set['YEAR'], params_to_be_set['E_MONTH'], params_to_be_set['E_DATE']),
     'TITLE': 'データサイエンス・機械学習 Twiiter 投稿まとめ {}/{}/{}-{}/{}/{}'.format(
         params_to_be_set['YEAR'], params_to_be_set[
             'S_MONTH'], params_to_be_set['S_DATE'],
@@ -47,4 +48,10 @@ params = {
     ),
     'TAG_IDS': [],
     'MEDIA_ID': None,
+
+    # parameters for selenium with chromedriver
+    'DRIVER_DIR': 'config/chromedriver_v83',
+    'DEEPL_URL': 'https://www.deepl.com/ja/translator',
+    'PAGE_LOAD_TIMEOUT': 10,
+
 }

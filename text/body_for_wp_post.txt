@@ -7,9 +7,12 @@
 <h2>【英語】 Tweet</h2>
 {TWEETS_EN}
 
+
 <h3>投稿条件</h3>
 <ul>
  	<li>検索ワード（日本語の場合）：「データサイエンス」 「機械学習」</li>
  	<li>検索ワード（英語の場合）：「data science」 「machine learning」</li>
- 	<li>対象としているTweet：上記検索ワードで検索された中で、（Twitter社が独自で判断している）人気のあるTweet、且つ100いいね以上ついているTweet</li>
+ 	<!-- <li>対象としているTweet：上記検索ワードで検索された中で、（Twitter社が独自で判断している）人気のあるTweet、且つ100いいね以上ついているTweet</li> -->
+	<li>対象としているTweet：上記検索ワードで検索された中で、且つ200いいね以上ついているTweet</li>
+ 	<li>日本語翻訳方法：<a href="https://www.deepl.com/ja/translator" rel="noopener" target="_blank">DeepL</a>を使用</li>
 </ul>
