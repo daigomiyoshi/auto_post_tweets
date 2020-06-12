@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import copy
+import pandas as pd
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -31,32 +32,46 @@ def modify_tweet_text(text):
     return text.replace('\n', ' ')
 
 
+def get_output_box_text(output_box):
+    CNT = 10
+    for i in range(CNT):
+        if output_box.get_attribute('value') != '':
+            return output_box.get_attribute('value')
+        else:
+            time.sleep(1)
+            continue
+    if i == CNT - 1:
+        return False
+
+
 def translate_text_with_deepl(params, text, driver):
-    driver.get(params['DEEPL_URL'])
+    while True:
+        driver.get(params['DEEPL_URL'])
 
-    input_text_xpath = '//*[@id="dl_translator"]/div[1]/div[3]/div[2]/div/textarea'
-    output_text_xpath = '//*[@id="dl_translator"]/div[1]/div[4]/div[3]/div[1]/textarea'
-    language_select_xpath = '//*[@id="dl_translator"]/div[1]/div[4]/div[1]/div[1]/div[1]/button/div'
-    target_language_xpath = '//*[@id="dl_translator"]/div[1]/div[4]/div[1]/div[1]/div[1]/div/button[1]'
+        input_text_xpath = '//*[@id="dl_translator"]/div[1]/div[3]/div[2]/div/textarea'
+        output_text_xpath = '//*[@id="dl_translator"]/div[1]/div[4]/div[3]/div[1]/textarea'
+        language_select_xpath = '//*[@id="dl_translator"]/div[1]/div[4]/div[1]/div[1]/div[1]/button/div'
+        target_language_xpath = '//*[@id="dl_translator"]/div[1]/div[4]/div[1]/div[1]/div[1]/div/button[1]'
 
-    input_box = WebDriverWait(driver, 20).until(
-        lambda driver: driver.find_element_by_xpath(input_text_xpath))
-    output_box = WebDriverWait(driver, 20).until(
-        lambda driver: driver.find_element_by_xpath(output_text_xpath))
-    driver.execute_script('arguments[0].value = arguments[1]', input_box, text)
+        input_box = WebDriverWait(driver, 20).until(
+            lambda driver: driver.find_element_by_xpath(input_text_xpath))
+        output_box = WebDriverWait(driver, 20).until(
+            lambda driver: driver.find_element_by_xpath(output_text_xpath))
+        driver.execute_script(
+            'arguments[0].value = arguments[1]', input_box, text)
 
-    select = WebDriverWait(driver, 20).until(
-        lambda driver: driver.find_element_by_xpath(language_select_xpath))
-    select.click()
-    time.sleep(0.5)
+        select = WebDriverWait(driver, 20).until(
+            lambda driver: driver.find_element_by_xpath(language_select_xpath))
+        select.click()
+        time.sleep(0.5)
 
-    lang = WebDriverWait(driver, 20).until(
-        lambda driver: driver.find_element_by_xpath(target_language_xpath))
-    lang.click()
-    time.sleep(10)
+        lang = WebDriverWait(driver, 20).until(
+            lambda driver: driver.find_element_by_xpath(target_language_xpath))
+        lang.click()
 
-    translated_text = output_box.get_attribute('value')
-
+        translated_text = get_output_box_text(output_box)
+        if translated_text is not False:
+            break
     return translated_text
 
 
@@ -84,15 +99,15 @@ def translate_tweets(params, tweets, debug=False):
     return tweet_translated
 
 
-def save_transalted_tweets_as_csv(tweet_translated):
+def save_transalted_tweets_as_csv(params, tweet_translated):
     tweet_translated_pd = pd.io.json.json_normalize(tweet_translated)[
         ['created_at', 'id', 'screen_name', 'lang', 'favorite_count',
          'retweet_count', 'full_text', 'translated_full_text']
     ]
-    try:
-        past_tweets_df = pd.read_csv('csv/translated_tweets.csv')
-        tweet_translated_pd = pd.concat([tweet_translated_pd, past_tweets_df])
-    except FileNotFoundError:
-        pass
+    csv_file_name = 'csv/translated_tweets_{}-{}-{}_{}-{}-{}.csv'.format(
+        params['YEAR'], params['S_MONTH'], params['S_DATE'],
+        params['YEAR'], params['E_MONTH'], params['E_DATE']
+    )
     tweet_translated_pd.to_csv(
-        'csv/translated_tweets.csv', index=False, encoding='utf_8_sig')
+        csv_file_name, index=False, encoding='utf_8_sig'
+    )

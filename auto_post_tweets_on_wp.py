@@ -17,7 +17,7 @@ def main():
         params=params, tweets=popular_tweets, debug=True
     )
     translate.save_transalted_tweets_as_csv(
-        tweet_translated=tweet_translated
+        params=params, tweet_translated=tweet_translated
     )
     post_wordpress.post_article(
         params=params, tweets=tweet_translated, debug=True
