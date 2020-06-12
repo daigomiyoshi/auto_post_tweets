@@ -53,7 +53,7 @@ def translate_text_with_deepl(params, text, driver):
     lang = WebDriverWait(driver, 20).until(
         lambda driver: driver.find_element_by_xpath(target_language_xpath))
     lang.click()
-    time.sleep(5)
+    time.sleep(10)
 
     translated_text = output_box.get_attribute('value')
 
@@ -82,3 +82,17 @@ def translate_tweets(params, tweets, debug=False):
 
     driver.quit()
     return tweet_translated
+
+
+def save_transalted_tweets_as_csv(tweet_translated):
+    tweet_translated_pd = pd.io.json.json_normalize(tweet_translated)[
+        ['created_at', 'id', 'screen_name', 'lang', 'favorite_count',
+         'retweet_count', 'full_text', 'translated_full_text']
+    ]
+    try:
+        past_tweets_df = pd.read_csv('csv/translated_tweets.csv')
+        tweet_translated_pd = pd.concat([tweet_translated_pd, past_tweets_df])
+    except FileNotFoundError:
+        pass
+    tweet_translated_pd.to_csv(
+        'csv/translated_tweets.csv', index=False, encoding='utf_8_sig')

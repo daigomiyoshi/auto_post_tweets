@@ -1,9 +1,9 @@
 params_to_be_set = {
     'YEAR': '2020',
     'S_MONTH': '06',
-    'S_DATE': '08',
+    'S_DATE': '11',
     'E_MONTH': '06',
-    'E_DATE': '10',
+    'E_DATE': '12',
 }
 
 params = {
@@ -40,7 +40,7 @@ params = {
     'STATUS': 'draft',
     'CATEGORY': [5],
     'SLUG': '{}-{}-{}-twitter-auto-post'.format(params_to_be_set['YEAR'], params_to_be_set['E_MONTH'], params_to_be_set['E_DATE']),
-    'TITLE': 'データサイエンス・機械学習 Twiiter 投稿まとめ {}/{}/{}-{}/{}/{}'.format(
+    'TITLE': 'データサイエンス・機械学習 Twitter 投稿まとめ {}/{}/{}-{}/{}/{}'.format(
         params_to_be_set['YEAR'], params_to_be_set[
             'S_MONTH'], params_to_be_set['S_DATE'],
         params_to_be_set['YEAR'], params_to_be_set[
